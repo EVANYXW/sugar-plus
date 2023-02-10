@@ -1,6 +1,29 @@
 package sugar_plus
 
-import "golang.org/x/exp/constraints"
+import (
+	"golang.org/x/exp/constraints"
+	"math/rand"
+	"time"
+)
+
+// CreateSlice 多维切片
+func CreateSlice(row, col int) [][]int {
+	flag := make([][]int, row)
+	for k, _ := range flag {
+		flag[k] = make([]int, col)
+	}
+	return flag
+}
+
+// Find slice 找值
+func Find[T element](slice []T, val T) (int, bool) {
+	for i, item := range slice {
+		if item == val {
+			return i, true
+		}
+	}
+	return -1, false
+}
 
 func SliceFiltrate[V any](collection []V, filtrate func(V, int) bool) []V {
 
@@ -70,4 +93,15 @@ func DelOneInSlice[T constraints.Ordered](a T, old []T) (new []T) {
 		}
 	}
 	return old
+}
+
+// Shuffle 打乱数组
+func Shuffle[T any](slice []T) {
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+	for len(slice) > 0 {
+		n := len(slice)
+		randIndex := r.Intn(n)
+		slice[n-1], slice[randIndex] = slice[randIndex], slice[n-1]
+		slice = slice[:n-1] //这里很巧妙的利用了外部slice的长度不可改变的特性来实现
+	}
 }

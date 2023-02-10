@@ -23,3 +23,8 @@ func TestSliceGroupBy(t *testing.T) {
 	})
 	fmt.Println(s)
 }
+
+func TestShuffle(t *testing.T) {
+	arr := []int{1, 2, 3, 4, 5}
+	Shuffle(arr)
+}
